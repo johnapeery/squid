@@ -50,3 +50,5 @@ sudo systemctl enable squid
 sudo systemctl start squid
 sudo systemctl enable squidGuard
 sudo suystemctl start squidGuard
+
+# Modify the whitelisted domains file for any domains you wish to allow during the allowedtime directive
