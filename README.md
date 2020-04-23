@@ -1,54 +1,53 @@
 # Install squid & squidGuard on Centos 7
-#
-# I plan to convert this to an Anisble Play to make deployment quick/easy
-#
 
-# Install EPEL Latest Release 7
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+## I plan to convert this to an Anisble Play to make deployment quick/easy
 
-# Install squid
-sudo yum install squid
+### Install EPEL Latest Release 7
+    yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
-# Install squidGuard
-sudo yum install squidGuard
+### Install squid
+    sudo yum install squid
 
-# Generate CA Cert
-openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout squid-ca-key.pem -out squid-ca-cert.pem
+### Install squidGuard
+    sudo yum install squidGuard
 
-# Create CA DER for client side import
-openssl x509 -in squid-ca-cert.pem -outform DER -out squid-ca-cert.der
+### Generate CA Cert
+    openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout squid-ca-key.pem -out squid-ca-cert.pem
 
-# Combine certs
-cat squid-ca-cert.pem squid-ca-key.pem >> squid-ca-cert-key.pem
+### Create CA DER for client side import
+    openssl x509 -in squid-ca-cert.pem -outform DER -out squid-ca-cert.der
 
-# Move the combined cert to /etc/squid/certs
-sudo mkdir /etc/squid/certs
-sudo mv squid-ca-cert-key.pem /etc/squid/certs/
-sudo chown -R squid:squid /etc/squid/certs
+### Combine certs
+    cat squid-ca-cert.pem squid-ca-key.pem >> squid-ca-cert-key.pem
 
-# Use the included config files, placing them in the /etc/squid directory
+### Move the combined cert to /etc/squid/certs
+    sudo mkdir /etc/squid/certs
+    sudo mv squid-ca-cert-key.pem /etc/squid/certs/
+    sudo chown -R squid:squid /etc/squid/certs
 
-# Confirm squid.conf
-sudo squid -k parse
+### Use the included config files, placing them in the /etc/squid directory
 
-# Create SSL DB
-sudo /usr/lib64/squid/ssl_crtd -c -s /var/lib/ssl_db
-sudo chown -R squid:squid /var/lib/ssl_db
+### Confirm squid.conf
+    sudo squid -k parse
 
-# Create blacklists directory
-mkdir /var/squidGuard/blacklists
+### Create SSL DB
+    sudo /usr/lib64/squid/ssl_crtd -c -s /var/lib/ssl_db
+    sudo chown -R squid:squid /var/lib/ssl_db
 
-# Use the included blacklists to get you started
-chown -R squid:squid /var/squidGuar/blacklists
+### Create blacklists directory
+    mkdir /var/squidGuard/blacklists
 
-# Modify selinux accordingly
+### Use the included blacklists to get you started
+    chown -R squid:squid /var/squidGuar/blacklists
 
-# Modify firewalld accordingly
+### Modify selinux accordingly
 
-# Enable/Start squid & squidGuar
-sudo systemctl enable squid
-sudo systemctl start squid
-sudo systemctl enable squidGuard
-sudo suystemctl start squidGuard
+### Modify firewalld accordingly
 
-# Modify the whitelisted domains file for any domains you wish to allow during the allowedtime directive
+### Enable/Start squid & squidGuar
+    sudo systemctl enable squid
+    sudo systemctl start squid
+    sudo systemctl enable squidGuard
+    sudo suystemctl start squidGuard
+
+### Modify the whitelisted domains file for any domains you wish to allow during the allowedtime directive
