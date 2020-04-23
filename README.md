@@ -12,7 +12,8 @@
     sudo yum install squidGuard
 
 ### Generate CA Cert
-    openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout squid-ca-key.pem -out squid-ca-cert.pem
+    openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca \
+	-keyout squid-ca-key.pem -out squid-ca-cert.pem
 
 ### Create CA DER for client side import
     openssl x509 -in squid-ca-cert.pem -outform DER -out squid-ca-cert.der
