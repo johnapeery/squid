@@ -44,7 +44,7 @@
 
 ### Modify firewalld accordingly
 
-### Enable/Start squid & squidGuar
+### Enable/Start squid & squidGuard
     sudo systemctl enable squid
     sudo systemctl start squid
     sudo systemctl enable squidGuard
